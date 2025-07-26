@@ -24,10 +24,7 @@ export type PokemonDetails = {
   order: number;
   past_abilities: PastAbility[];
   past_types: any[];
-  species: {
-    name: string;
-    url: string;
-  };
+  species: Form;
   sprites: Sprites;
   stats: Stat[];
   types: Type[];
@@ -35,15 +32,12 @@ export type PokemonDetails = {
 };
 
 type Ability = {
-  ability: {
-    name: string;
-    url: string;
-  };
+  ability: Form;
   is_hidden: boolean;
   slot: number;
 };
 
-type Form = {
+export type Form = {
   name: string;
   url: string;
 };

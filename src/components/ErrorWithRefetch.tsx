@@ -1,5 +1,4 @@
 import { Button, Center, Stack, Text } from "@chakra-ui/react";
-import React from "react";
 
 const ErrorWithRefetch = ({
   msg,
@@ -20,4 +19,4 @@ const ErrorWithRefetch = ({
   );
 };
 
-export default ErrorWithRefetch;
+export { ErrorWithRefetch };

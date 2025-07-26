@@ -1,39 +1,22 @@
-import React, { useState } from "react";
-import { Box, Button, HStack } from "@chakra-ui/react";
-import { Routes, Route, Link } from "react-router-dom";
-import { PaginationView, InfiniteScrollView, PokemonDetail } from "@/pages";
-
-type FetchingMode = "PAGINATION" | "INFINITE";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { routes } from "@/routes";
+import { Redirect } from "./components/Redirect";
+import { ErrorBoundaryWrapper } from "./components";
+import { Suspense } from "react";
+import { Spinner } from "@chakra-ui/react";
 
 function App() {
-  const [mode, setMode] = useState<FetchingMode>("PAGINATION");
-
   return (
-    <Box p={4}>
-      <HStack spacing={4} mb={4}>
-        <Button
-          onClick={() => setMode("PAGINATION")}
-          colorScheme={mode === "PAGINATION" ? "teal" : "gray"}
-        >
-          Pagination View
-        </Button>
-        <Button
-          onClick={() => setMode("INFINITE")}
-          colorScheme={mode === "INFINITE" ? "teal" : "gray"}
-        >
-          Load More View
-        </Button>
-      </HStack>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            mode === "PAGINATION" ? <PaginationView /> : <InfiniteScrollView />
-          }
-        />
-        <Route path="/pokemon/:name" element={<PokemonDetail />} />
-      </Routes>
-    </Box>
+    <ErrorBoundaryWrapper>
+      <Suspense fallback={<Spinner size="xl" color="orange.400" />}>
+        <Routes>
+          {routes.map(({ path, element: Component }) => (
+            <Route key={`route-${path}`} path={path} element={<Component />} />
+          ))}
+          <Route path="*" element={<Redirect to="/" />} />
+        </Routes>
+      </Suspense>
+    </ErrorBoundaryWrapper>
   );
 }
 

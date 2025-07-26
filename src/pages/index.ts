@@ -1,3 +1,2 @@
-export * from "./InfiniteScrollView";
-export * from "./PaginationView";
+export * from "./PokemonList";
 export * from "./PokemonDetail";

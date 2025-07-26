@@ -27,36 +27,26 @@ export const InfiniteScrollView = () => {
   if (isLoading) {
     return (
       <Center h="100vh">
-        <Spinner size="xl" />
+        <Spinner size="lg" color="orange.400" />
       </Center>
     );
   }
-
   return (
-    <Box px={4} py={6}>
-      {/* 
-       Grid layout to display Pokemon cards.
-        - Responsive columns: 
-          • 2 columns on mobile,
-          • 3 (default) on tablets,
-          • 5 columns on desktop and up.
-        - Spacing of 4 units between cards.
-        */}
-
-      <SimpleGrid columns={[2, 3, 5]} spacing={4}>
-        {allPokemons?.map(pokemons => (
-          <PokemonCard key={pokemons.name} {...pokemons} />
+    <Box>
+      <SimpleGrid columns={[2, 3, 3, 5]} spacing={4}>
+        {allPokemons?.map((pokemons, index) => (
+          <PokemonCard key={pokemons.name} id={index + 1} {...pokemons} />
         ))}
       </SimpleGrid>
 
       {/* Specific for intersection observer */}
-      <Box ref={loaderRef} h="20px" />
+      <Box ref={loaderRef} h={5} />
 
       {isFetchingNextPage && (
         <Stack mt={8} gap={20}>
           <Center mt={4}>
             <Flex justify="center" mt={2} gap={4} ref={loaderRef}>
-              <Spinner />
+              <Spinner color="orange.400" />
               <Text>Loading More Pokemons</Text>
             </Flex>
           </Center>

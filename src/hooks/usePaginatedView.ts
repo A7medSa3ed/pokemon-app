@@ -4,26 +4,28 @@ import { fetchPokemons, POKEMONS_QUERY_KEY } from "@/services";
 import { PokemonListResponse } from "@/types";
 import { isValidPage } from "@/utils";
 
+export const PAGINATION_LIMIT = 15; // items per page
+
 const usePaginatedView = () => {
   // Track the current page number in state
   const [currentPage, setCurrentPage] = useState(1);
 
   /**
    * Constatns */
-  const limit = 20; // items per page
-  const offset = (currentPage - 1) * limit; // API offset based on current page
+  const offset = (currentPage - 1) * PAGINATION_LIMIT; // API offset based on current page
 
   /**
    * APIs */
-  const { data, isLoading, error, refetch } = useQuery<PokemonListResponse>({
-    queryKey: [POKEMONS_QUERY_KEY, currentPage],
-    queryFn: () => fetchPokemons(limit, offset),
-    keepPreviousData: true // keep previous data while fetching the next page
-  });
+  const { data, isLoading, isFetching, error, refetch } =
+    useQuery<PokemonListResponse>({
+      queryKey: [POKEMONS_QUERY_KEY, currentPage],
+      queryFn: () => fetchPokemons(PAGINATION_LIMIT, offset),
+      keepPreviousData: true // keep previous data while fetching the next page
+    });
 
   const count = data?.count;
   const pokemons = data?.results;
-  const totalPages = Math.ceil(count ?? 1 / limit);
+  const totalPages = Math.ceil(count / PAGINATION_LIMIT);
 
   /**
    * Functions */
@@ -68,6 +70,7 @@ const usePaginatedView = () => {
     refetch,
     pokemons,
     isLoading,
+    isFetching,
     pagination,
     totalPages,
     currentPage,

@@ -1,0 +1,17 @@
+import React from "react";
+import { Icon as BaseComponent, IIconProps as BaseProps } from "native-base";
+
+type Omitted = "size" | "colorScheme";
+
+export type IconWrapperProps = Omit<BaseProps, Omitted> & {
+  /**
+   * @default "md"
+   */
+  size?: (typeof iconSizes)[number] | number | string;
+};
+
+export const IconWrapper = ({ children, ...rest }: IconWrapperProps) => (
+  <BaseComponent {...rest}>{children}</BaseComponent>
+);
+
+export default IconWrapper;
